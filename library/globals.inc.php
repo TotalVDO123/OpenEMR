@@ -155,8 +155,8 @@ $USER_SPECIFIC_GLOBALS = array('default_top_pane',
     'checkout_roll_off',
     'patient_birthday_alert',
     'patient_birthday_alert_manual_off',
-    'erx_import_status_message',
-    'weno_provider_password');
+    'erx_import_status_message'
+);
 
 // Gets array of time zones supported by PHP.
 //
@@ -1527,6 +1527,13 @@ $GLOBALS_METADATA = array(
             'bool',                           // data type
             '0',                              // default
             xl('Enable swap secondary insurance')
+        ),
+
+        'add_unmatched_code_from_ins_co_era_to_billing' => array(
+            xl('Enable adding unmatched code from insurance company to billing table'),
+            'bool',                           // data type
+            '0',                              // default
+            xl('Enable adding unmatched code from insurance company to billing table')
         ),
 
     ),
@@ -3495,34 +3502,6 @@ $GLOBALS_METADATA = array(
             xl('Log all NewCrop eRx Requests and / or Responses.'),
         ),
 
-        'weno_rx_enable' => array(
-            xl('Enable Weno eRx Service'),
-            'bool',
-            '0',
-            xl('Enable Weno eRx Service') . ' ' . xl('Contact https://online.wenoexchange.com to sign up for Weno Free eRx service.')
-        ),
-
-        'weno_rx_enable_test' => array(
-            xl('Enable Weno eRx Service Test mode'),
-            'bool',
-            '1',
-            xl('Enable Weno eRx Service Test mode')
-        ),
-
-        'weno_encryption_key' => array(
-            xl('Weno Encryption Key'),
-            'encrypted',                      // data type
-            '',
-            xl('Encryption key issued by Weno eRx service.')
-        ),
-
-        'weno_provider_password' => array(
-            xl('Weno Provider Account Password'),
-            'encrypted',                      // data type
-            '',
-            xl('Each provider needs to set this under user settings. This should be blank')
-        ),
-
         'ccda_alt_service_enable' => array(
             xl('Enable C-CDA Service'),
             array(
@@ -4077,6 +4056,14 @@ $GLOBALS_METADATA = array(
             'LETTER',
             xl('Choose Paper Size')
         ),
+
+        'pdf_font_size' => array(
+            xl('PDF Font Size in Pt'),
+            'num',
+            '10',
+            xl('Sets the font size for most PDF text in pt')
+        ),
+
         'pdf_left_margin' => array(
             xl('Left Margin (mm)'),
             'num',
@@ -4166,7 +4153,7 @@ $GLOBALS_METADATA = array(
         ),
 
         'env_font_size' => array(
-            xl('Font Size in Pt'),
+            xl('Envelope Font Size in Pt'),
             'num',                           // data type
             '14',
             xl('Sets the font of the address text on the envelope in mm')

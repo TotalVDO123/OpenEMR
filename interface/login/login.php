@@ -34,6 +34,9 @@ use OpenEMR\Events\Core\TemplatePageEvent;
 use OpenEMR\Services\FacilityService;
 use OpenEMR\Services\LogoService;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 $ignoreAuth = true;
 // Set $sessionAllowWrite to true to prevent session concurrency issues during authorization related code
@@ -142,7 +145,17 @@ function getLanguagesList(): array
     $langList = [];
 
     while ($row = sqlFetchArray($res)) {
-        $langList[] = $row;
+        if (!$GLOBALS['allow_debug_language'] && $row['lang_description'] == 'dummy') {
+            continue; // skip the dummy language
+        }
+
+        if ($GLOBALS['language_menu_showall']) {
+            $langList[] = $row;
+        } else {
+            if (in_array($row['lang_description'], $GLOBALS['language_menu_show'])) {
+                $langList[] = $row;
+            }
+        }
     }
 
     return $langList;
@@ -252,4 +265,8 @@ $ed = $GLOBALS['kernel']->getEventDispatcher();
 $templatePageEvent = new TemplatePageEvent('login/login.php', [], $layout, $viewArgs);
 $event = $ed->dispatch($templatePageEvent, TemplatePageEvent::RENDER_EVENT);
 
-echo $t->render($event->getTwigTemplate(), $event->getTwigVariables());
+try {
+    echo $t->render($event->getTwigTemplate(), $event->getTwigVariables());
+} catch (LoaderError | RuntimeError | SyntaxError $e) {
+    echo "<p style='font-size:24px; color: red;'>" . text($e->getMessage()) . '</p>';
+}

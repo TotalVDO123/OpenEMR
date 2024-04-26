@@ -41,6 +41,16 @@ class CarecoordinationController extends AbstractActionController
      */
     private $documentsController;
 
+    /**
+     * @var Application\Listener\Listener
+     */
+    private $listenerObject;
+
+    /**
+     * @var string
+     */
+    private $date_format;
+
     public function __construct(CarecoordinationTable $table, DocumentsController $documentsController)
     {
         $this->carecoordinationTable = $table;
@@ -1020,7 +1030,7 @@ class CarecoordinationController extends AbstractActionController
 
                     $auditMasterRecordId = $this->getCarecoordinationTable()->import($ob->get_id());
                     // we can use this to do any other processing as the files should be in order
-                    $auditMasterRecordByPatients[$fileComponents[2]] = $auditMasterRecordId;
+                    $auditMasterRecordByPatients[$fileComponents[2] ?? ''] = $auditMasterRecordId;
                 }
             }
         }
